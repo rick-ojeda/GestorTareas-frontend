@@ -33,7 +33,7 @@ class GestorTareas {
     }
 
     agregar(descripcion, fechalimite) {
- // El objeto tarea consta de un id, descripcion, fecha de ingreso, fecha limite y estado
+// El objeto tarea consta de un id, descripcion, fecha de ingreso, fecha limite y estado
         const nuevaTarea = {
             id: this.generarId(),
             descripcion,
@@ -82,6 +82,7 @@ const mostrarTareas = () => {
     lista.innerHTML = "";
 
     gestor.obtenerTareas().forEach((tarea, indice) => {
+//Se aplica destructuring
         const { id, descripcion, estado, fecha, fechalimite } = tarea;
 
         const tareaEstado = estado ? "Activa" : "Inactiva";
