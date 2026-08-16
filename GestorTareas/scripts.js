@@ -1,8 +1,10 @@
+// Listado de variables del DOM
 const lista = document.getElementById("lista");
 const formulario = document.getElementById("formulario");
 const encabezadoTareas = document.getElementById("encabezadoTareas");
 const ingresoTareas = document.getElementById("ingresoTareas");
 
+// Clase principal que gestiona las tareas
 class GestorTareas {
     constructor() {
         this.tareas = JSON.parse(localStorage.getItem("tareas")) || [];
@@ -31,6 +33,7 @@ class GestorTareas {
     }
 
     agregar(descripcion, fechalimite) {
+ // El objeto tarea consta de un id, descripcion, fecha de ingreso, fecha limite y estado
         const nuevaTarea = {
             id: this.generarId(),
             descripcion,
@@ -72,6 +75,7 @@ const gestor = new GestorTareas();
 let nombreGuardado = localStorage.getItem("nombre");
 let indiceEditar = -1;
 let intervaloCuenta;
+
 
 const mostrarTareas = () => {
     const lista = document.getElementById("lista");
@@ -130,6 +134,7 @@ const mostrarTareas = () => {
     });
 };
 
+//Esta funcion guarda la tarea tomando todos los campos que el usuario ingresa
 const guardarTarea = () => {
     const txtTarea = document.getElementById("txtTarea");
     const txtFecha = document.getElementById("txtFecha");
@@ -149,15 +154,16 @@ const guardarTarea = () => {
     }
 
     if (indiceEditar === -1) {
-        // Crear nueva tarea
+// Crear nueva tarea
         gestor.agregar(texto, fecha);
     } else {
-        // Editar tarea existente
+// Editar tarea existente
         gestor.editar(indiceEditar, texto, fecha);
         indiceEditar = -1;
         btnGuardar.textContent = "Guardar";
     }
 
+//Se muestra el lista de las tareas despues de dos segundos de que esta es ingresada    
     alert("Ingresando datos");
     setTimeout(() => {
         mostrarTareas();
@@ -168,6 +174,7 @@ const guardarTarea = () => {
     txtFecha.value = "";
 };
 
+//Clase inicial para realizar login a la aplicacion
 const guardarNombre = () => {
     const txtNombre = document.getElementById("txtNombre");
     const nombre = txtNombre.value.trim();
@@ -181,6 +188,7 @@ const guardarNombre = () => {
     nombreGuardado = nombre;
     cargarPagina();
 };
+
 
 const cargarPagina = () => {
     formulario.innerHTML = `
@@ -212,11 +220,9 @@ const cargarPagina = () => {
         </div>
     `;
 
-    // Asignar eventos a los nuevos elementos
     document.getElementById("btnGuardar").addEventListener("click", guardarTarea);
     document.getElementById("btnSalir").addEventListener("click", salir);
 
-    // Eventos de la lista (editar, eliminar, estado)
     document.getElementById("lista").addEventListener("click", (e) => {
         const indice = e.target.dataset.id;
 
@@ -282,6 +288,7 @@ const cargarPagina = () => {
 
             const cuenta = document.getElementById("cuentaRegresiva");
 
+// Contador regresivo para la fecha limite de la tarea            
             const actualizar = () => {
                 const diferencia = fechaLimite - new Date();
 
@@ -301,6 +308,7 @@ const cargarPagina = () => {
                 cuenta.innerHTML = dias + " días, " + horas + " horas, " + minutos + " minutos, " + segundos + " segundos";
             };
 
+//Se actualiza cada un segundo            
             actualizar();
             intervaloCuenta = setInterval(actualizar, 1000);
         }
@@ -309,9 +317,7 @@ const cargarPagina = () => {
     mostrarTareas();
 };
 
-// ======================
-// 8. SALIR
-// ======================
+//Funcion para salir de la aplicacion, elimna todos los datos del localStorage
 const salir = () => {
     let respuesta = confirm("¿Desea salir de la aplicacion?");
     if (respuesta) {
